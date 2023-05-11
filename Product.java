@@ -1,15 +1,15 @@
 public class Product {
-    private String code;
-    private String name;
-    private float unitPrice;
+    private final int code;
+    private final String name;
+    private final float unitPrice;
 
-    public Product(String code, String name, float unitPrice) {
+    public Product(int code, String name, float unitPrice) {
         this.code = code;
         this.name = name;
         this.unitPrice = unitPrice;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 

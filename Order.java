@@ -1,10 +1,10 @@
 import java.util.Map;
 
 public class Order {
-    private Cart cart;
-    private double cashPaid;
-    private double totalPrice;
-    private double cashChange;
+    private final Cart cart;
+    private final double cashPaid;
+    private final double totalPrice;
+    private final double cashChange;
 
     public Order(Cart cart, double cashPaid) {
         this.cart = cart;

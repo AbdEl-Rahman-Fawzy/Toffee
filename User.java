@@ -2,11 +2,12 @@ public class User{
     private String UserName ;
     private String Email;
     private String Password;
+    private int ID;
 
-    private Cart cart;
+    public Cart cart;
     public User(){}
 
-    public User(String UserName , String Email ,String Password){
+    public User(String UserName , String Email ,String Password , int id){
         this.Email = Email;
         this.Password = Password;
         this.UserName = UserName;

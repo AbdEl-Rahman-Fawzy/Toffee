@@ -1,12 +1,41 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class Manager {
-    private List<Product> items;
+    private boolean is_logged = false;
+    public static int lastID = 6;
+    private final Registeration R = new Registeration();
+    private static final ArrayList<Product> items = new ArrayList<>();
+    private static final DataBase dataBase = new DataBase();
+    static{
+        dataBase.AddToDatabase(new User("User1" , "User1@gmail.com","xx1", 1));
+        dataBase.AddToDatabase(new User("User2" , "User2@gmail.com","xx2", 2));
+        dataBase.AddToDatabase(new User("User3" , "User3@gmail.com","xx3", 3));
+        dataBase.AddToDatabase(new User("User4" , "User4@gmail.com","xx4", 4));
+        dataBase.AddToDatabase(new User("User5" , "User5@gmail.com","xx5", 5));
+
+    }
+
+    private String name, email, password;
+    private final User current = new User("ali", "XD", "15", 1);
+
+    static {
+        items.add(new Product(1, "Cupcake   ", 30));
+        items.add(new Product(2, "Cake      ", 200));
+        items.add(new Product(3, "Cinnamon  ", 100));
+        items.add(new Product(4, "Brownies  ", 70));
+        items.add(new Product(5, "Biscuit   ", 45));
+        items.add(new Product(6, "Croissant ", 50));
+        items.add(new Product(7, "Kunafa    ", 175));
+        items.add(new Product(8, "basbousa  ", 175));
+        items.add(new Product(9, "harissa   ", 150));
+    }
+
 
     public Manager() {
-        items = new ArrayList<>();
+        System.out.println("\t\t\t\t<<Welcome to Toffee Store>>\n");
     }
+
 
     // method to add an item to the list of items available in the toffee shop
     public void addItem(Product item) {
@@ -17,13 +46,93 @@ public class Manager {
     public void displayItems() {
         System.out.println("Items available in the toffee shop:");
         for (Product item : items) {
-            System.out.println(item.getName() + " - " + item.getUnitPrice());
+            System.out.println(item.getCode() + " - " + item.getName() + " - " + item.getUnitPrice());
         }
     }
 
-    public void MakeOrder(Cart cart , double cashPaid){
-        Order newOrder = new Order(cart , cashPaid);
-        newOrder.processOrder();
+    private Product searchInCatalog(int productCode) {
+        Product newProduct = new Product(0, null, 0);
+        for (Product i : items) {
+            if (i.getCode() == productCode) {
+                newProduct = i;
+            }
+        }
+        return newProduct;
     }
 
+    //  Search
+    public void search(int code) {
+        System.out.println("\tAfter searching for this code " + "{ " + searchInCatalog(code).getCode() + "} ...");
+        System.out.println("\tProduct Name and Unit price: [ " + searchInCatalog(code).getName() + "- " + searchInCatalog(code).getUnitPrice() + " $ ]");
+        System.out.println("----------------------------------------------");
+    }
+
+    public void Fill_cart() {
+        int x = 100000;
+        while (x != 0) {
+            Scanner scanner = new Scanner(System.in);
+            displayItems();
+            System.out.println("enter 0 to exit or the item id to be added to cart");
+            x = scanner.nextInt();
+            boolean found = false;
+            Product temp = new Product(0, null, 0);
+            for (Product p : items) {
+                if (x == p.getCode()) {
+                    found = true;
+                    temp = p;
+                }
+            }
+            if (!found) {
+                continue;
+            }
+            current.cart.addProduct(temp);
+        }
+        System.out.println("Cart filled successfully");
+    }
+
+    public void MakeOrder(double cashPaid) {
+        Order newOrder = new Order(this.current.cart, cashPaid);
+        newOrder.processOrder();
+    }
+    public boolean checkR(User x){
+        if(x == null){
+            return false;
+        }
+        dataBase.AddToDatabase(x);
+        return true;
+    }
+
+
+    public void Run() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Plz Enter (l) if u want to login and (r) if u want to regester..");
+        String options = input.nextLine();
+
+        if (options.contentEquals("l")) {
+            for (int i = 0; i < 4; i++) {
+                if (R.login()) {
+                    is_logged = true;
+                    break;
+                }
+            }
+
+        } else if (options.contentEquals("r")) {
+            while (true){
+                System.out.println("enter 0 to exit or 1 to to register again :");
+                int x = input.nextInt();
+                if(x == 1 ){
+                    if(checkR(R.Register(lastID++))) return;
+                }
+                else if( x == 0) {
+                    return;
+                }
+            }
+
+        }
+    }
+
+    public boolean isIs_logged() {
+        return is_logged;
+    }
 }
+
