@@ -1,10 +1,12 @@
+package org.example;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Manager {
     private boolean is_logged = false;
     public static int lastID = 6;
-    private final Registeration R = new Registeration();
+    private final Registration R = new Registration();
     private static final ArrayList<Product> items = new ArrayList<>();
     private static final DataBase dataBase = new DataBase();
     static{
@@ -22,7 +24,7 @@ public class Manager {
     static {
         items.add(new Product(1, "Cupcake   ", 30));
         items.add(new Product(2, "Cake      ", 200));
-        items.add(new Product(3, "Cinnamon  ", 100));
+        items.add(new Product(3, "Cinnabon  ", 100));
         items.add(new Product(4, "Brownies  ", 70));
         items.add(new Product(5, "Biscuit   ", 45));
         items.add(new Product(6, "Croissant ", 50));
@@ -49,7 +51,7 @@ public class Manager {
             System.out.println(item.getCode() + " - " + item.getName() + " - " + item.getUnitPrice());
         }
     }
-
+    // method to search for an item
     private Product searchInCatalog(int productCode) {
         Product newProduct = new Product(0, null, 0);
         for (Product i : items) {
@@ -62,22 +64,22 @@ public class Manager {
 
     //  Search
     public void search(int code) {
-        System.out.println("\tAfter searching for this code " + "{ " + searchInCatalog(code).getCode() + "} ...");
-        System.out.println("\tProduct Name and Unit price: [ " + searchInCatalog(code).getName() + "- " + searchInCatalog(code).getUnitPrice() + " $ ]");
-        System.out.println("----------------------------------------------");
+        System.out.println("After searching for this code " + "{ " + searchInCatalog(code).getCode() + " } ...");
+        System.out.println("Product Name and Unit price: [ " + searchInCatalog(code).getName() + "- " + searchInCatalog(code).getUnitPrice() + " .LE ]");
     }
-
+    // method to add items to cart
     public void Fill_cart() {
-        int x = 100000;
-        while (x != 0) {
+        int Exit = 100000;
+        while (Exit != 0) {
             Scanner scanner = new Scanner(System.in);
             displayItems();
             System.out.println("enter 0 to exit or the item id to be added to cart");
-            x = scanner.nextInt();
+            Exit = scanner.nextInt();
             boolean found = false;
             Product temp = new Product(0, null, 0);
+            //  Find the product
             for (Product p : items) {
-                if (x == p.getCode()) {
+                if (Exit == p.getCode()) {
                     found = true;
                     temp = p;
                 }
@@ -85,11 +87,12 @@ public class Manager {
             if (!found) {
                 continue;
             }
+            // add product to the cart
             current.cart.addProduct(temp);
         }
         System.out.println("Cart filled successfully");
     }
-
+    //  method to allow user to make order
     public void MakeOrder(double cashPaid) {
         Order newOrder = new Order(this.current.cart, cashPaid);
         newOrder.processOrder();
@@ -118,12 +121,12 @@ public class Manager {
 
         } else if (options.contentEquals("r")) {
             while (true){
-                System.out.println("enter 0 to exit or 1 to to register again :");
-                int x = input.nextInt();
-                if(x == 1 ){
+                System.out.println("enter 0 to exit or 1 to to register :");
+                int Input = input.nextInt();
+                if(Input == 1 ){
                     if(checkR(R.Register(lastID++))) return;
                 }
-                else if( x == 0) {
+                else if( Input == 0) {
                     return;
                 }
             }
@@ -135,4 +138,3 @@ public class Manager {
         return is_logged;
     }
 }
-

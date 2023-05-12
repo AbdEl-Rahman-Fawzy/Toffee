@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Map;
 
 public class Order {
@@ -41,7 +43,7 @@ public class Order {
             return true;
         } else {
             // Print an error message if the paid amount does not match the total price
-                System.out.println("Cash paid less than cart's price .");
+            System.out.println("Cash paid less than cart's price .");
             return false;
         }
     }

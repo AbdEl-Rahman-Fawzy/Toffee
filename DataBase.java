@@ -1,10 +1,11 @@
+package org.example;
+
 import java.util.ArrayList;
 
 public class DataBase {
     private static final ArrayList<User> ArrayOfUsers = new ArrayList<>();
 
-
-
+    //    Check if the user exists in the database
     public boolean IsExist(String email, String password) {
         boolean flag = false;
         for (User i : ArrayOfUsers) {
@@ -15,7 +16,7 @@ public class DataBase {
         }
         return flag;
     }
-
+    //    Return all users from database
     public User getUser(String email, String password) {
         User newUser = new User();
         for (User i : ArrayOfUsers) {
@@ -25,7 +26,7 @@ public class DataBase {
         }
         return newUser;
     }
-
+    //    Add new user to database
     public void AddToDatabase(User newUser) {
         ArrayOfUsers.add(newUser);
     }
